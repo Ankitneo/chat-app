@@ -1,3 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @room.name %>
+</p>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="<%= root_path %>">ChatApp</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,22 +41,41 @@
 
 </nav>
 <div id="main">
-  <h2>Chat room</h2>
+  <h2><%= @room.name %></h2>
   <div id="chat_body">
     <div id="messages">
+      <% @room.messages.each do |m| %>
+      <% if m.user_id !=current_user.id %>
+
+      <p style="background-color: chocolate;
+          border-bottom-right-radius: 10px;"> <%= m.message %> </p>
+          <% else %>
+      <p style=" border-bottom-left-radius: 10px;
+          background-color: darkred;
+          align-self: flex-end;"> <%= m.message %> </p>
+          <% end %>
+      <% end %>
     </div>
+   
     <form id="send_message">
-      <input type="text" id="message" name="message" autocomplete="off" style="margin-bottom: 10px;" placeholder="type something..." >
+      <input type="text" id="message" name="message" autocomplete="off" style="margin-bottom: 10px;" placeholder="type something...">
       <button>Send</button>
     </form>
   </div>
   <div id="modal">
     <div>
+      <% if Room.last.messages.pluck(:user_id).include?(current_user.id) %>
+       <form id="set_name">
+        <input type="text" id="add_name" name="add_name" autocomplete="off" placeholder="please enter your name...", value="<%= current_user.username %>">
+        <button>Click to start chat</button>
+      </form>
+      <% else %>
       <h4>Enter your name</h4>
       <form id="set_name">
-        <input type="text" id="add_name" name="add_name" autocomplete="off" placeholder="please enter your name...">
-        <button>Join Room</button>
+        <input type="text" id="add_name" name="add_name" autocomplete="off" placeholder="please enter your name...", value="<%= current_user.username %>">
+        <button>Join room</button>
       </form>
+      <% end %>
     </div>
   </div>
 </div>

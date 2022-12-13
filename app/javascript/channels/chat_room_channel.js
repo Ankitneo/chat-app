@@ -10,9 +10,12 @@ const chatRoomChannel = consumer.subscriptions.create("ChatRoomChannel", {
   },
 
   received(data) {
+    console.log(data);
+    console.log(sessionStorage)
+    console.log(sessionStorage.getItem('chat_room_name'));
     if (data.message) {
-      let current_name = sessionStorage.getItem('chat_room_name')
-      let msg_class = data.sent_by === current_name ? "sent" : "received"
+      let current_name = sessionStorage.getItem('chat_room_name');
+      let msg_class = data.sent_by === current_name ? "sent" : "received";
       $('#messages').append(`<p class='${msg_class}'>` + data.message + '</p>')
     } else if(data.chat_room_name) {
       let name = data.chat_room_name;
@@ -22,8 +25,9 @@ const chatRoomChannel = consumer.subscriptions.create("ChatRoomChannel", {
   },
 
   speak(message) {
-    let name = sessionStorage.getItem('chat_room_name')
-    this.perform('speak', { message, name })
+    console.log(message);
+    let name = sessionStorage.getItem('chat_room_name');
+    this.perform('speak', { message, name });
   },
 
   announce(content) {
