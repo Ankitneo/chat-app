@@ -8,7 +8,7 @@ class ChatRoomChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    Message.create(user_id: 2, message: data["message"], room_id: 1)
+    Message.create(user_id: 1, message: data["message"], room_id: 1)
     # byebug
     ActionCable.server.broadcast "chat_room_2", message: data["message"], sent_by: data["name"], room: Room.last.id
   end

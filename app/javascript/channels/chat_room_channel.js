@@ -16,7 +16,8 @@ const chatRoomChannel = consumer.subscriptions.create("ChatRoomChannel", {
     if (data.message) {
       let current_name = sessionStorage.getItem('chat_room_name');
       let msg_class = data.sent_by === current_name ? "sent" : "received";
-      $('#messages').append(`<p class='${msg_class}'>` + data.message + '</p>')
+      $('#messages').append(`<p class='${msg_class}'>` + data.message + '</p>');
+      
     } else if(data.chat_room_name) {
       let name = data.chat_room_name;
       let announcement_type = data.type == 'join' ? 'joined' : 'left';
